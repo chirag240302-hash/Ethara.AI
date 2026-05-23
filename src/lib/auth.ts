@@ -40,10 +40,6 @@ export async function hashPassword(password: string) {
 }
 
 export async function verifyPassword(password: string, passwordHash: string) {
-  if (passwordHash.startsWith("plain:")) {
-    return password === passwordHash.slice(6);
-  }
-
   return bcrypt.compare(password, passwordHash);
 }
 

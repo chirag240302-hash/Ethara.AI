@@ -1,11 +1,27 @@
 name: Init DB
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      environment_name:
+        description: Optional GitHub Environment name if DATABASE_URL is stored there
+        required: false
+        default: ""
 
 jobs:
   init:
+    environment: ${{ inputs.environment_name }}
     runs-on: ubuntu-latest
     steps:
+      - name: Validate required secrets
+        shell: bash
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL secret is missing or empty. Set it as a repo secret or select the correct GitHub Environment for this workflow run."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
 

@@ -76,6 +76,19 @@ After seeding a real database, use:
 
 Production does not use the in-memory fallback, so `DATABASE_URL` is required.
 
+### GitHub Actions DB init
+
+If you use the manual workflow in `.github/workflows/init-db.yml`, add these repository secrets:
+
+- `DATABASE_URL` should be the external Railway PostgreSQL connection string, not the `postgres.railway.internal` host.
+- `AUTH_SECRET` is optional for the seed job unless you add code that needs it.
+
+If you stored `DATABASE_URL` in a GitHub Environment instead of repo secrets, select that Environment when running the workflow. The workflow now reads the Environment you choose at dispatch time.
+
+Then open GitHub Actions, select `Init DB`, and run the workflow on the branch you want to initialize.
+
+If the secret is empty, the workflow stops immediately with a clear error message.
+
 ### Deployment checklist
 
 - Confirm `DATABASE_URL` points to the Railway Postgres service.

@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import { PrismaClient } from "@prisma/client/index";
 
 const isProduction = process.env.NODE_ENV === "production";
 const isProductionBuild = process.env.NEXT_PHASE === "phase-production-build";
@@ -74,6 +75,9 @@ const globalForPrisma = globalThis as unknown as {
   mockDb?: MockDb;
 };
 
+const mockAdminPasswordHash = bcrypt.hashSync("Admin1234!", 12);
+const mockMemberPasswordHash = bcrypt.hashSync("Member1234!", 12);
+
 function createId() {
   return `mock_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
 }
@@ -95,7 +99,7 @@ function ensureMockDb(): MockDb {
       id: "mock_admin_user",
       name: "Team Admin",
       email: "admin@teamtask.local",
-      passwordHash: "plain:Admin1234!",
+      passwordHash: mockAdminPasswordHash,
       role: "ADMIN",
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -107,7 +111,7 @@ function ensureMockDb(): MockDb {
       id: "mock_member_user",
       name: "Team Member",
       email: "member@teamtask.local",
-      passwordHash: "plain:Member1234!",
+      passwordHash: mockMemberPasswordHash,
       role: "MEMBER",
       createdAt: new Date(),
       updatedAt: new Date(),
