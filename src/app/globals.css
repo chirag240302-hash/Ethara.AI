@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+:root {
+  --background-rgb: 250 246 240;
+  --foreground-rgb: 18 24 38;
+  --muted-rgb: 97 104 122;
+  --card-rgb: 255 255 255;
+  --line-rgb: 224 217 208;
+  --accent-rgb: 190 91 50;
+  --accent-strong-rgb: 126 58 30;
+}
+
+@theme inline {
+  --color-background: rgb(var(--background-rgb));
+  --color-foreground: rgb(var(--foreground-rgb));
+  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, rgba(var(--accent-rgb), 0.14), transparent 28%),
+    radial-gradient(circle at 85% 15%, rgba(44, 92, 210, 0.1), transparent 22%),
+    linear-gradient(180deg, rgb(var(--background-rgb)), rgb(245 239 231));
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: rgb(var(--foreground-rgb));
+  font-family: var(--font-sans);
+  background: transparent;
+}
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.25);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.glass-card {
+  background: rgba(var(--card-rgb), 0.84);
+  border: 1px solid rgba(var(--line-rgb), 0.9);
+  box-shadow: 0 24px 60px rgba(22, 29, 42, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.subtle-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.page-shell {
+  position: relative;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: fixed;
+  inset: auto;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(12px);
+}
+
+.page-shell::before {
+  width: 24rem;
+  height: 24rem;
+  left: -10rem;
+  top: 8rem;
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.page-shell::after {
+  width: 18rem;
+  height: 18rem;
+  right: -6rem;
+  top: 12rem;
+  background: rgba(44, 92, 210, 0.08);
+}
