@@ -1,0 +1,29 @@
+name: Clear Users
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  clear-users:
+    name: Clear all users
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        run: |
+          if [ -z "${{ secrets.DATABASE_URL }}" ]; then
+            echo "Missing DATABASE_URL secret. Aborting."; exit 1; fi
+          if [ -z "${{ secrets.CLEAR_USERS_SECRET }}" ]; then
+            echo "Missing CLEAR_USERS_SECRET. Add this repo secret to authorize this workflow."; exit 1; fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run clear-users script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CLEAR_USERS_SECRET: ${{ secrets.CLEAR_USERS_SECRET }}
+        run: node scripts/clear-users.js
