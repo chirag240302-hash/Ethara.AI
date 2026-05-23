@@ -2,12 +2,17 @@ name: Clear Users
 
 on:
   workflow_dispatch:
-    inputs: {}
+    inputs:
+      environment_name:
+        description: "(Optional) GitHub Environment name to use for secrets"
+        required: false
+        default: ""
 
 jobs:
   clear-users:
     name: Clear all users
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
